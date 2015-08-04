@@ -1,3 +1,11 @@
+// chris 80315
+
+// gochat is a simple central-server websockets-based chat application.
+//
+// The server listens on ports 8080 for HTTP connections and 8081 for
+// WebSocket connections.  A page is available on 8080 with the chat
+// application.  The client will automatically reconnect in the event
+// that the server is restarted.
 package main
 
 import (
