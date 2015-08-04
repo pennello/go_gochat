@@ -1,0 +1,51 @@
+<!doctype html5>
+<html lang='en'>
+<head>
+  <title>websockets chat demo</title>
+</head>
+<body>
+  <form id='form' onsubmit='return chat(this);' autocomplete='off'
+      disabled='true'>
+    <label>
+      nick:
+      <input type='text' name='nick' value='anon' autocomplete='off'
+        disabled='true'>
+    </label>
+    <input type='text' name='msg' size='100' autocomplete='off'
+      disabled='true'>
+    <button type='submit' name='button' disabled='true'>submit</button>
+  </form>
+  <pre id='room'></pre>
+  <script>
+    function enable(v) {
+      form.disabled = form.nick.disabled = form.msg.disabled =
+        form.button.disabled = !v;
+    }
+
+    var server = '{{ . }}';
+    var socket = null;
+    function initsocket() {
+      socket = new WebSocket(server);
+      socket.onopen = function(evt) { enable(true); };
+      socket.onmessage = function(evt) {
+        room.innerText = evt.data + '\n' + room.innerText;
+      };
+      socket.onclose = function(evt) {
+        // Server probably restarted; refresh.
+        enable(false);
+        console.log('reconnecting');
+        setTimeout(initsocket, 1000);
+      };
+    }
+    initsocket();
+
+    function chat(form) {
+      var nick = form.nick.value;
+      var msg = form.msg.value;
+      form.msg.value = '';
+      socket.send(nick + ': ' + msg);
+      return false;
+    }
+  </script>
+</body>
+</html>
