@@ -7,6 +7,10 @@ Documentation
 -------------
  - [GoDoc Documentation](https://godoc.org/chrispennello.com/go/gochat)
 
+Installation
+------------
+    go get chrispennello.com/go/gochat
+
 Future Work
 -----------
  - Command-line option for listen ports.
